@@ -1,0 +1,20 @@
+{
+  "name": "petes-potatos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "author": "pk",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^3.6.0",
+    "express": "^4.16.3",
+    "nodemon": "^1.17.5"
+  }
+}
