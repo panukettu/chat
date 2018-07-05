@@ -13,6 +13,7 @@ export default class Socket extends React.Component {
       const messages = [...this.state.messages];
       messages.push(msg);
       this.setState({ messages });
+      updateScroll();
     });
     socket.on("usernames", userNames => {
       this.setState({ userNames });
@@ -35,5 +36,12 @@ export default class Socket extends React.Component {
       setUser: this.setUser,
       userNames: this.state.userNames
     });
+  }
+}
+
+function updateScroll() {
+  var element = document.getElementById("chat-messages");
+  if (element) {
+    element.scrollTop = element.scrollHeight;
   }
 }

@@ -13,7 +13,6 @@ class ChatUI extends React.Component {
   handleChange = e => {
     let change = {};
     change[e.target.name] = e.target.value;
-    console.log(change);
     this.setState(change);
   };
 
@@ -63,7 +62,7 @@ class ChatUI extends React.Component {
               </User>
             ))}
           </Users>
-          <Messages>
+          <Messages id="chat-messages">
             {messages.map(msg => (
               <Comment>
                 <CommentTimeStamp>
