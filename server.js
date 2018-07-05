@@ -16,35 +16,41 @@ app.get("/chat", (req, res) => {
 });
 
 io.on("connection", socket => {
-  io.emit("new connection", {
+  io.emit("chat message", {
     timestamp: new Date(),
     sender: "Evil MAstermind",
-    content: "peon connected"
+    message: "new connection"
   });
 
   socket.on("new user", data => {
-    console.log("trying to create new user");
+    log("trying to create new user");
     socket.nickname = data;
     nicknames.push(data);
     io.sockets.emit("usernames", nicknames);
+    io.emit("chat message", {
+      timestamp: new Date(),
+      sender: "Evil MAstermind",
+      message: "WelcOMe Mr. " + data
+    });
   });
 
   socket.on("chat message", function(data) {
     io.emit("chat message", {
       timestamp: new Date(),
       sender: data.nickName,
-      content: data.value
+      message: data.value
     });
   });
 
   socket.on("disconnect", () => {
-    const index = nicknames[socket.nickname];
-    nicknames.splice(index, 1);
+    const index = nicknames.indexOf(socket.nickname);
+    nicknames.splice(index);
+    log(`removed ${socket.nickname} from array, index: ${index}`);
     io.sockets.emit("usernames", nicknames);
     io.emit("chat message", {
       timestamp: new Date(),
       sender: "Evil MAstermind",
-      content: "peon disconnected"
+      message: `${socket.nickname} disconnected`
     });
   });
 });
@@ -64,21 +70,25 @@ const messages = [
   {
     id: 1,
     username: "tester",
-    content: "Moi kaikille!"
+    message: "Moi kaikille!"
   },
   {
     id: 2,
     username: "erkki",
-    content: "Ei mulla sen kummempia :D"
+    message: "Ei mulla sen kummempia :D"
   },
   {
     id: 3,
     username: "cool-nick",
-    content: "ez for ence"
+    message: "ez for ence"
   },
   {
     id: 4,
     username: "mies79",
-    content: "what a fuck!!!"
+    message: "what a fuck!!!"
   }
 ];
+
+log = msg => {
+  console.log(" ------ " + msg);
+};

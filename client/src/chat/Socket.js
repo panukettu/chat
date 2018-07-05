@@ -14,11 +14,6 @@ export default class Socket extends React.Component {
       messages.push(msg);
       this.setState({ messages });
     });
-    socket.on("new connection", msg => {
-      const messages = [...this.state.messages];
-      messages.push(msg);
-      this.setState({ messages });
-    });
     socket.on("usernames", userNames => {
       this.setState({ userNames });
     });

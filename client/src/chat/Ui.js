@@ -55,7 +55,13 @@ class ChatUI extends React.Component {
           </Title>
           <Users>
             Kaaleet:
-            {userNames.map(name => <User>{name}, </User>)}
+            {userNames.map((name, index) => (
+              <User>
+                {" "}
+                {name}
+                {index === userNames.length - 1 ? "" : ", "}
+              </User>
+            ))}
           </Users>
           <Messages>
             {messages.map(msg => (
@@ -64,7 +70,7 @@ class ChatUI extends React.Component {
                   {new Date(msg.timestamp).toLocaleTimeString()}
                 </CommentTimeStamp>
                 <CommentSender>{msg.sender}</CommentSender>
-                <CommentContent>{msg.content}</CommentContent>
+                <CommentContent>{msg.message}</CommentContent>
               </Comment>
             ))}
           </Messages>
