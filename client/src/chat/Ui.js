@@ -16,37 +16,35 @@ class ChatUI extends React.Component {
       submitMessage,
       isRegistered
     } = this.props;
-    if (!isRegistered) {
-      return (
-        <Form>
+    return (
+      <Form>
+        <Title>
+          Chat <span role="img">💬</span>
+        </Title>
+        <Users>
+          Paikalla:
+          {userNames.map((name, index) => (
+            <User>
+              {" "}
+              {name}
+              {index === userNames.length - 1 ? "" : ", "}
+            </User>
+          ))}
+        </Users>
+        {isRegistered ? (
+          <React.Fragment>
+            <MessageBox id="chat-messages" messages={messages} />
+            <MessageForm
+              submitMessage={submitMessage}
+              onChange={this.handleChange}
+              onKeyPress={this.handleKeyPress}
+            />
+          </React.Fragment>
+        ) : (
           <RegisterForm setUser={setUser} />
-        </Form>
-      );
-    } else {
-      return (
-        <Form>
-          <Title>
-            Chat <span role="img">💬</span>
-          </Title>
-          <Users>
-            Kaaleet:
-            {userNames.map((name, index) => (
-              <User>
-                {" "}
-                {name}
-                {index === userNames.length - 1 ? "" : ", "}
-              </User>
-            ))}
-          </Users>
-          <MessageBox id="chat-messages" messages={messages} />
-          <MessageForm
-            submitMessage={submitMessage}
-            onChange={this.handleChange}
-            onKeyPress={this.handleKeyPress}
-          />
-        </Form>
-      );
-    }
+        )}
+      </Form>
+    );
   }
 }
 

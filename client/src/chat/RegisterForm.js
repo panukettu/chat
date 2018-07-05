@@ -18,6 +18,7 @@ export default class RegisterForm extends React.Component {
           type="text"
           value={this.state.nickname}
           onChange={this.handleChange}
+          placeholder="Nimimerkki"
         />
         <button
           type="button"
@@ -25,7 +26,7 @@ export default class RegisterForm extends React.Component {
             setUser(this.state.nickname);
           }}
         >
-          Nimimerkki
+          join the fun
         </button>
       </React.Fragment>
     );
