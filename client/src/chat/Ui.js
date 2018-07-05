@@ -6,7 +6,8 @@ import styled from "styled-components";
 class ChatUI extends React.Component {
   state = {
     message: "",
-    nickname: ""
+    nickname: "",
+    isRegistered: false
   };
 
   handleChange = e => {
@@ -17,17 +18,16 @@ class ChatUI extends React.Component {
   };
 
   handleKeyPress = e => {
-    if (e.key === "Enter" && this.state.value.trim() !== "") {
+    if (e.key === "Enter" && this.state.message.trim() !== "") {
       e.preventDefault();
-      this.props.submitMessage(this.state.value, this.state.nickname);
-      this.setState({ value: "" });
+      this.props.submitMessage(this.state.message, this.state.nickname);
+      this.setState({ message: "" });
     }
   };
 
   render() {
     const { userNames, messages, setUser, submitMessage } = this.props;
-    console.log(userNames);
-    if (userNames.length === 0) {
+    if (!this.state.isRegistered) {
       return (
         <Form>
           <input
@@ -36,7 +36,13 @@ class ChatUI extends React.Component {
             value={this.state.nickName}
             onChange={this.handleChange}
           />
-          <button type="button" onClick={() => setUser(this.state.nickname)}>
+          <button
+            type="button"
+            onClick={() => {
+              setUser(this.state.nickname);
+              this.setState({ isRegistered: true });
+            }}
+          >
             Nimimerkki
           </button>
         </Form>
