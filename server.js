@@ -38,6 +38,9 @@ io.on("connection", socket => {
   });
 
   socket.on("disconnect", () => {
+    const index = nicknames[socket.nickname];
+    nicknames.splice(index, 1);
+    io.sockets.emit("usernames", nicknames);
     io.emit("chat message", {
       timestamp: new Date(),
       sender: "Evil MAstermind",
