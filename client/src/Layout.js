@@ -3,17 +3,20 @@ import React from "react";
 import styled from "styled-components";
 
 import ApiTest from "./ApiTest";
+import Chat from "./chat/Ui";
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 39% 59%;
   grid-gap: 15px;
   height: 100vh;
   background: linear-gradient(90deg, MediumVioletRed, BlueViolet);
 `;
 
 const GridColumn = styled.div`
-  opacity: 0.9;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
   margin: 10px;
   padding: 10px;
   background-color: white;
@@ -24,7 +27,7 @@ const GridColumn = styled.div`
 const Layout = () => (
   <Grid>
     <GridColumn>
-      <h2>Hello</h2>
+      <Chat />
     </GridColumn>
     <GridColumn>
       <ApiTest />
