@@ -5,7 +5,8 @@ var socket = io();
 export default class Socket extends React.Component {
   state = {
     messages: [],
-    userNames: []
+    userNames: [],
+    isRegistered: false
   };
 
   componentDidMount() {
@@ -17,6 +18,10 @@ export default class Socket extends React.Component {
     });
     socket.on("usernames", userNames => {
       this.setState({ userNames });
+    });
+    socket.on("registered", result => {
+      console.log("registered", result);
+      this.setState({ isRegistered: result });
     });
   }
 
@@ -34,7 +39,8 @@ export default class Socket extends React.Component {
       submitMessage: this.sendMessage,
       messages: this.state.messages,
       setUser: this.setUser,
-      userNames: this.state.userNames
+      userNames: this.state.userNames,
+      isRegistered: this.state.isRegistered
     });
   }
 }

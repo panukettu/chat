@@ -1,11 +1,10 @@
-const express = require("express");
-const path = require("path");
-const app = express();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
-const port = process.env.PORT || 5000;
-
-const nicknames = [];
+const express = require("express"),
+  path = require("path"),
+  app = express(),
+  http = require("http").Server(app),
+  io = require("socket.io")(http),
+  port = process.env.PORT || 5000,
+  nicknames = [];
 
 app.get("/api/hello", (req, res) => {
   res.send({ express: "Hello From Express" });
@@ -15,6 +14,11 @@ app.get("/chat", (req, res) => {
   res.send(messages);
 });
 
+/**
+|--------------------------------------------------
+| User opens the site
+|--------------------------------------------------
+*/
 io.on("connection", socket => {
   io.emit("chat message", {
     timestamp: new Date(),
@@ -22,11 +26,20 @@ io.on("connection", socket => {
     message: "new connection"
   });
 
+  /**
+  |--------------------------------------------------
+  |  When user presses submit nickname button
+  |--------------------------------------------------
+  */
+
   socket.on("new user", data => {
-    log("trying to create new user");
+    log("trying to create new user " + data);
+
     socket.nickname = data;
     nicknames.push(data);
+
     io.sockets.emit("usernames", nicknames);
+    io.sockets.connected[socket.id].emit("registered", true);
     io.emit("chat message", {
       timestamp: new Date(),
       sender: "Evil MAstermind",
@@ -34,19 +47,32 @@ io.on("connection", socket => {
     });
   });
 
-  socket.on("chat message", function(data) {
+  /**
+  |--------------------------------------------------
+  | Chat message sent
+  |--------------------------------------------------
+  */
+  socket.on("chat message", data => {
     io.emit("chat message", {
       timestamp: new Date(),
-      sender: data.nickName,
+      sender: socket.nickname,
       message: data.value
     });
   });
 
+  /**
+  |--------------------------------------------------
+  | User disconnects 
+  |--------------------------------------------------
+  */
   socket.on("disconnect", () => {
     const index = nicknames.indexOf(socket.nickname);
     nicknames.splice(index);
+
     log(`removed ${socket.nickname} from array, index: ${index}`);
+
     io.sockets.emit("usernames", nicknames);
+
     io.emit("chat message", {
       timestamp: new Date(),
       sender: "Evil MAstermind",
@@ -65,29 +91,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 http.listen(port, () => console.log(`Listening on port ${port}`));
-
-const messages = [
-  {
-    id: 1,
-    username: "tester",
-    message: "Moi kaikille!"
-  },
-  {
-    id: 2,
-    username: "erkki",
-    message: "Ei mulla sen kummempia :D"
-  },
-  {
-    id: 3,
-    username: "cool-nick",
-    message: "ez for ence"
-  },
-  {
-    id: 4,
-    username: "mies79",
-    message: "what a fuck!!!"
-  }
-];
 
 log = msg => {
   console.log(" ------ " + msg);
