@@ -55,7 +55,7 @@ class ChatUI extends React.Component {
           </Title>
           <Users>
             Kaaleet:
-            {userNames.map(name => <User>{name} </User>)}
+            {userNames.map(name => <User>{name}, </User>)}
           </Users>
           <Messages>
             {messages.map(msg => (
