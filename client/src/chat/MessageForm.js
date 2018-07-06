@@ -1,24 +1,24 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export default class SubmitForm extends React.Component {
   state = {
-    message: ""
+    message: ''
   };
 
   handleChange = e => this.setState({ message: e.target.value });
 
   handleKeyPress = e => {
-    if (e.key === "Enter" && this.state.message.trim() !== "") {
+    if (e.key === 'Enter' && this.state.message.trim() !== '') {
       e.preventDefault();
-      this.props.submitMessage(this.state.message);
-      this.setState({ message: "" });
+      this.props.sendMessage(this.state.message);
+      this.setState({ message: '' });
     }
   };
 
   render() {
-    const { submitMessage } = this.props;
+    const { sendMessage } = this.props;
     return (
       <Submit>
         <FullWidthTextArea
@@ -30,8 +30,8 @@ export default class SubmitForm extends React.Component {
         <button
           type="button"
           onClick={() => {
-            submitMessage(this.state.message);
-            this.setState({ message: "" });
+            sendMessage(this.state.message);
+            this.setState({ message: '' });
           }}
         >
           Send

@@ -14,5 +14,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000/"
+  "proxy": "http://localhost:5000/",
+  "devDependencies": {
+    "jest-dom": "^1.5.1",
+    "react-testing-library": "^4.1.2"
+  }
 }

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Message = ({ message }) => (
-  <MessageContainer>
+  <MessageContainer data-testid="comment">
     <MessageTimeStamp>
       {new Date(message.timestamp).toLocaleTimeString()}
     </MessageTimeStamp>
@@ -13,7 +13,9 @@ const Message = ({ message }) => (
 
 export default ({ messages }) => (
   <MessageBox>
-    {messages.map(message => <Message message={message} />)}
+    {messages.map((message, index) => (
+      <Message key={index} message={message} />
+    ))}
   </MessageBox>
 );
 

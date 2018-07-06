@@ -1,61 +1,59 @@
-import React from "react";
+import React from 'react';
 
-import Socket from "./Socket";
-import styled from "styled-components";
+import Socket from './Socket';
+import styled from 'styled-components';
 
-import MessageBox from "./MessageBox";
-import MessageForm from "./MessageForm";
-import RegisterForm from "./RegisterForm";
+import MessageBox from './MessageBox';
+import MessageForm from './MessageForm';
+import RegisterForm from './RegisterForm';
 
-class ChatUI extends React.Component {
-  render() {
-    const {
-      userNames,
-      messages,
-      setUser,
-      submitMessage,
-      isRegistered
-    } = this.props;
-    return (
-      <Form>
-        <Title>
-          Chat <span role="img">💬</span>
-        </Title>
-        <Users>
-          Paikalla:
-          {userNames.map((name, index) => (
-            <User>
-              {" "}
-              {name}
-              {index === userNames.length - 1 ? "" : ", "}
-            </User>
-          ))}
-        </Users>
-        {isRegistered ? (
-          <React.Fragment>
-            <MessageBox id="chat-messages" messages={messages} />
-            <MessageForm
-              submitMessage={submitMessage}
-              onChange={this.handleChange}
-              onKeyPress={this.handleKeyPress}
-            />
-          </React.Fragment>
-        ) : (
-          <RegisterForm setUser={setUser} />
-        )}
-      </Form>
-    );
-  }
-}
+export const ChatUI = ({
+  usernames,
+  messages,
+  setUser,
+  sendMessage,
+  isRegistered
+}) => {
+  return (
+    <Container>
+      <Title>
+        Chat <span role="img">💬</span>
+      </Title>
+      <Users>
+        Paikalla:
+        {usernames.map((username, index) => (
+          <User key={index}>
+            {username}
+            {index === usernames.length - 1 ? '' : ', '}
+          </User>
+        ))}
+      </Users>
+      {isRegistered ? (
+        <React.Fragment>
+          <MessageBox id="chat-messages" messages={messages} />
+          <MessageForm sendMessage={sendMessage} />
+        </React.Fragment>
+      ) : (
+        <RegisterForm setUser={setUser} />
+      )}
+    </Container>
+  );
+};
+
+ChatUI.defaultProps = {
+  usernames: [],
+  messages: [],
+  isRegistered: false
+};
 
 const Chat = () => (
   <Socket>
-    {({ submitMessage, messages, setUser, userNames, isRegistered }) => (
+    {({ sendMessage, messages, setUser, usernames, isRegistered }) => (
       <ChatUI
-        submitMessage={submitMessage}
+        sendMessage={sendMessage}
         messages={messages}
         setUser={setUser}
-        userNames={userNames}
+        usernames={usernames}
         isRegistered={isRegistered}
       />
     )}
@@ -64,7 +62,7 @@ const Chat = () => (
 
 export default Chat;
 
-const Form = styled.form`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
